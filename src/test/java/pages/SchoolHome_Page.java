@@ -25,4 +25,23 @@ public class SchoolHome_Page {
 
     @FindBy(linkText = "Add Student")
     public WebElement addStudent;
+
+    @FindBy (xpath = "//a[.='Add Teacher']")
+    public WebElement addTeacherButton;
+
+    @FindBy (xpath = "//li[@class='submenu']//span[.=' Teachers']")
+    public WebElement teachersButton;
+
+    @FindBy (xpath = "//a[.='All Teacher']")
+    public WebElement allTeacherButton;
+
+    @FindBy(xpath = "//a[.='All Students']")
+    public WebElement allStudentsButton;
+
+    @FindBy(xpath = "//a[.='Add Student']")
+    public WebElement addStudentButton;
+
+    @FindBy (xpath = "//li[@class='submenu']//span[.=' Students']")
+    public WebElement studentsButton;
+
 }
