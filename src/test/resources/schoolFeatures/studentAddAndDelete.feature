@@ -8,7 +8,7 @@ Feature: Adding Student to the School database
 
     @Diana&Azamat
   Scenario: Adding new Student and Deleting the Added New Student
-    And User clicks on Students dropdown
+    And User clicks on Students option
     And User clicks on Add Student
     And User fills out information field for Student
     And User clicks on Submit button to submit new Student

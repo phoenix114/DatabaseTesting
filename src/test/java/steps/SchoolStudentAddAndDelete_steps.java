@@ -39,13 +39,12 @@ public class SchoolStudentAddAndDelete_steps {
 
 
 
-
-
-    @When("User clicks on Students dropdown")
-    public void user_clicks_on_Students_dropdown() {
-       home.studentDrop.click();
-
+    @Given("User clicks on Students option")
+    public void user_clicks_on_Students_option() {
+        home.studentDrop.click();
     }
+
+
 
     @When("User clicks on Add Student")
     public void user_clicks_on_Add_Student() {
@@ -127,7 +126,7 @@ public class SchoolStudentAddAndDelete_steps {
             boolean dateOfBirthCheck = false;
             boolean majorCheck = false;
             boolean subjectCheck = false;
-            System.out.println(eachRow.get("BIRTH_DATE").toString().trim());
+            //System.out.println(eachRow.get("BIRTH_DATE").toString().trim());
 
             for(int column =1; column<=columnCount; column++){
                 if(eachRow.get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("Munevver")){
@@ -239,7 +238,7 @@ public class SchoolStudentAddAndDelete_steps {
             boolean dateOfBirthCheck = false;
             boolean majorCheck = false;
             boolean subjectCheck = false;
-            System.out.println(eachRow.get("BIRTH_DATE").toString().trim());
+            //System.out.println(eachRow.get("BIRTH_DATE").toString().trim());
 
             for(int column =1; column<=columnCount; column++){
                 if(eachRow.get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("Munevver")){
