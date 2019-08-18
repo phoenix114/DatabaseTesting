@@ -20,7 +20,6 @@ public class SchoolAllStudents_Page {
 
     }
 
-
     @FindBy (xpath = "//div[@class='dropdown profile-action']")
     public List<WebElement> threeDotsOnTheAddedStudent;
 
@@ -29,8 +28,6 @@ public class SchoolAllStudents_Page {
 
     @FindBy (xpath = "//button[.='Delete']")
     public WebElement deleteButton;
-
-
 
 
 
