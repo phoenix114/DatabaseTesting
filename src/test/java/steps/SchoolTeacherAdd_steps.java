@@ -3,10 +3,17 @@ package steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.junit.Assert;
 import pages.SchoolAddTeachers_Page;
 import pages.SchoolHome_Page;
 import utilities.Config;
+import utilities.DBType;
+import utilities.DBUtility;
 import utilities.Driver;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 public class SchoolTeacherAdd_steps {
     SchoolHome_Page schoolHome_page = new SchoolHome_Page();
@@ -49,8 +56,42 @@ public class SchoolTeacherAdd_steps {
     }
 
     @Then("Tester verifies if new Teacher exists in DataBase")
-    public void tester_verifies_if_new_Teacher_exists_in_DataBase() {
+    public void tester_verifies_if_new_Teacher_exists_in_DataBase() throws SQLException {
+        DBUtility.openConnection(DBType.ORACLE);
+        String query = "select first_name from teacher";
+        String expectedName = Config.getProperty("firstName");
 
-    }
+        List<Map<String, Object>> listOfMaps = DBUtility.executeSQLquery(query);
+        boolean check = false;
+        for (Map<String , Object> map : listOfMaps){
+            if (map.get("FIRST_NAME").equals(expectedName)){
+                check = true;
+                break;
+            }else {
+                check = false;
+            }
+        }
+
+        Assert.assertTrue("Test failed - Expected name not in Data Base", check);
+     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

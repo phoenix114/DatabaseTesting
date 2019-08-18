@@ -13,11 +13,11 @@ public class DBUtility {
     private static ResultSet resultSet;
 
 
-    public static void openConnection(String dbType) throws SQLException {
+    public static void openConnection(DBType dbType) throws SQLException {
         switch (dbType){
-            case "Oracle":
+            case ORACLE:
                 connection = DriverManager.getConnection(Config.getProperty("oracleUrl"),
-                Config.getProperty("oracleUsername"),
+                        Config.getProperty("oracleUsername"),
                         Config.getProperty("oraclePassword"));
             break;
 
