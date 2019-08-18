@@ -1,4 +1,4 @@
-@Bea2
+@Smoke
 Feature: Adding Teacher to the School database and verifying
 
   Background: User in on the School page
