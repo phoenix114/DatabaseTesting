@@ -1,4 +1,4 @@
-@Bea
+@Smoke
 Feature: Adding Student to the School database
 
   Background: User in on the School Login page

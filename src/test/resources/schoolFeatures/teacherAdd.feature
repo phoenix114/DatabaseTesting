@@ -1,13 +1,13 @@
-@Bea2
-Feature: Adding Teacher to the School database
+@Smoke
+Feature: Adding Teacher to the School database and verifying
 
-  Background: User in on the School Login page
+  Background: User in on the School page
 
-    Given User on the web page and login username "SchoolLogIn" and password "SchoolPassword"
-    When User is clicking on LogIn Button
+    Given User is opening the cybertekTraining Page
 
-  @Hilal&Ulugbec
-  Scenario: Adding new Teacher
+
+  @Azamat
+  Scenario: Teacher is feeling out all info and adding to the list of the Teachers
 
     And User clicks on Teachers dropdown
     And User clicks on Add Teacher
