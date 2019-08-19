@@ -12,7 +12,7 @@ Feature: Adding Student to the School database
     And User clicks on Add Student
     And User fills out information field for Student
     And User clicks on Submit button to submit new Student
-    Then Tester verifies if new Student exists in DataBase
+    Then Tester verifies if new Student exists in Data Base
     Then User clicks on the three dots on the added new student spot
     Then User clicks on the Delete option
     Then Tester verifies if the deleted student is still in the database

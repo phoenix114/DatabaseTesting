@@ -4,7 +4,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -27,11 +27,12 @@ public class SchoolStudentAddAndDelete_steps {
     SchoolHome_Page home = new SchoolHome_Page();
     SchoolAddStudents_Page schoolAddStudents_page = new SchoolAddStudents_Page();
     SchoolAllStudents_Page schoolAllStudentsPage = new SchoolAllStudents_Page();
-
+    //private WebElement desiredDeleteButton;
+    private WebElement lastStudent;
     private static Connection connection;
     private static Statement statement;
     private static ResultSet resultSet;
-
+    private String studentId;
     @Given ("User on the CybertekTraining web page")
     public void user_on_the_CybertekTraining_web_page() {
         Driver.getDriver().get(Config.getProperty("SchoolURL"));
@@ -78,12 +79,14 @@ public class SchoolStudentAddAndDelete_steps {
     }
 
     @When("User clicks on Submit button to submit new Student")
-    public void user_clicks_on_Submit_button_to_submit_new_Student() {
+    public void user_clicks_on_Submit_button_to_submit_new_Student() throws InterruptedException {
     schoolAddStudents_page.submitButton.click();
+    //Thread.sleep(15000);
     }
 
-    @Then("Tester verifies if new Student exists in DataBase")
-    public void tester_verifies_if_new_Student_exists_in_DataBase() throws SQLException {
+
+    @Then("Tester verifies if new Student exists in Data Base")
+    public void tester_verifies_if_new_Student_exists_in_Data_Base() throws SQLException {
         connection = DriverManager.getConnection(Config.getProperty("oracleUrl"),
                 Config.getProperty("oracleUsername"),
                 Config.getProperty("oraclePassword"));
@@ -119,7 +122,7 @@ public class SchoolStudentAddAndDelete_steps {
 
 
         boolean result = false;
-        for (Map<String, Object> eachRow : table){
+        for (int i =0; i<table.size(); i++){
 
             boolean firstNameCheck = false;
             boolean lastNameCheck = false;
@@ -129,24 +132,24 @@ public class SchoolStudentAddAndDelete_steps {
             //System.out.println(eachRow.get("BIRTH_DATE").toString().trim());
 
             for(int column =1; column<=columnCount; column++){
-                if(eachRow.get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("Munevver")){
+                if(table.get(i).get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("Munevver")){
                     firstNameCheck = true;
                     //System.out.println("First name: " + firstNameCheck);
                 }
-                if(eachRow.get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("Tekin")){
+                if(table.get(i).get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("Tekin")){
                     lastNameCheck = true;
                     //System.out.println("Last name: " + lastNameCheck);
                 }
-                if(eachRow.get(metaData.getColumnName(column)).toString().trim().contains("1987-04-07")){
+                if(table.get(i).get(metaData.getColumnName(column)).toString().trim().contains("1987-04-07")){
                     dateOfBirthCheck = true;
                     //System.out.println("Date of Birth: " + dateOfBirthCheck);
                 }
-                if(eachRow.get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("Computer Science")){
+                if(table.get(i).get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("Computer Science")){
                     majorCheck = true;
                     //System.out.println("Major: " + majorCheck);
                 }
 
-                if(eachRow.get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("API")){
+                if(table.get(i).get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("API")){
 
                     subjectCheck = true;
                     //System.out.println("Subject: " + subjectCheck);
@@ -154,11 +157,15 @@ public class SchoolStudentAddAndDelete_steps {
             }
 
 
-        if(firstNameCheck==true&&lastNameCheck==true&&dateOfBirthCheck==true&&majorCheck==true&&subjectCheck==true){
-            result = true;
-            System.out.println("Result" + result);
-            break;
-        }
+            if(firstNameCheck==true&&lastNameCheck==true&&dateOfBirthCheck==true&&majorCheck==true&&subjectCheck==true){
+                result = true;
+
+                studentId = table.get(table.size()-1).get(metaData.getColumnName(1)).toString().trim();
+                System.out.println(studentId);
+
+                System.out.println("Result" + result);
+                break;
+            }
 
 
 
@@ -168,23 +175,43 @@ public class SchoolStudentAddAndDelete_steps {
         DBUtility.closeConnection();
     }
 
+
+
+
+
+
+
+
+
+
     @Then("User clicks on the three dots on the added new student spot")
     public void user_clicks_on_the_three_dots_on_the_added_new_student_spot() throws InterruptedException {
 
-        Actions actions = new Actions(Driver.getDriver());
-        Thread.sleep(1000);
-        actions.sendKeys(Keys.PAGE_DOWN).perform();
-        Thread.sleep(1000);
-        actions.sendKeys(Keys.PAGE_DOWN).perform();
+        lastStudent = schoolAllStudentsPage.allTheStudentOptions.get(schoolAllStudentsPage.allTheStudentOptions.size()-1);
 
+        Actions actions = new Actions(Driver.getDriver());
+
+        actions.moveToElement(lastStudent).perform();
 
 
         schoolAllStudentsPage.threeDotsOnTheAddedStudent.get(schoolAllStudentsPage.threeDotsOnTheAddedStudent.size()-1).click();
-        schoolAllStudentsPage.allTheDeleteOptions.get(schoolAllStudentsPage.allTheDeleteOptions.size()-1).click();
+            schoolAllStudentsPage.allTheDeleteOptions.get(schoolAllStudentsPage.allTheDeleteOptions.size()-1).click();
+//
+//        WebDriverWait wait = new WebDriverWait(Driver.getDriver(),20);
+//        wait.until(ExpectedConditions.elementToBeClickable(desiredDeleteButton));
+//        desiredDeleteButton.click();
     }
 
+
+
+
+
+
+
+
+
     @Then("User clicks on the Delete option")
-    public void user_clicks_on_the_Delete_option() {
+    public void user_clicks_on_the_Delete_option() throws InterruptedException {
         schoolAllStudentsPage.allTheDeleteOptions.get(schoolAllStudentsPage.allTheDeleteOptions.size()-1);
 //        Actions actions = new Actions(Driver.getDriver());
 //        actions.moveToElement(schoolAllStudentsPage.deleteButton).perform();
@@ -192,6 +219,7 @@ public class SchoolStudentAddAndDelete_steps {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(),20);
         wait.until(ExpectedConditions.elementToBeClickable(schoolAllStudentsPage.deleteButton));
         schoolAllStudentsPage.deleteButton.click();
+       //Thread.sleep(15000);
     }
 
     @Then("Tester verifies if the deleted student is still in the database")
@@ -204,7 +232,7 @@ public class SchoolStudentAddAndDelete_steps {
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columnCount = metaData.getColumnCount();
         List<Map<String, Object>> table = new ArrayList<>();
-
+        System.out.println(studentId);
         while (resultSet.next()){
             Map<String, Object> map = new HashMap<>();
 
@@ -238,9 +266,17 @@ public class SchoolStudentAddAndDelete_steps {
             boolean dateOfBirthCheck = false;
             boolean majorCheck = false;
             boolean subjectCheck = false;
+            boolean studentIdCheck = false;
             //System.out.println(eachRow.get("BIRTH_DATE").toString().trim());
 
             for(int column =1; column<=columnCount; column++){
+
+                if(eachRow.get(metaData.getColumnName(1)).toString().trim().equalsIgnoreCase(studentId)){
+                    studentIdCheck = true;
+                    System.out.println("student id: " + studentId);
+                }
+
+
                 if(eachRow.get(metaData.getColumnName(column)).toString().trim().equalsIgnoreCase("Munevver")){
                     firstNameCheck = true;
                     //System.out.println("First name: " + firstNameCheck);
@@ -263,12 +299,15 @@ public class SchoolStudentAddAndDelete_steps {
                     subjectCheck = true;
                     //System.out.println("Subject: " + subjectCheck);
                 }
+
+
             }
 
 
-            if(firstNameCheck==true&&lastNameCheck==true&&dateOfBirthCheck==true&&majorCheck==true&&subjectCheck==true){
+            if(firstNameCheck==true&&lastNameCheck==true&&dateOfBirthCheck==true&&majorCheck==true&&subjectCheck==true&&studentIdCheck==true){
                 result = true;
-                System.out.println("Result" + result);
+
+                System.out.println("Result " + result);
                 break;
             }
 

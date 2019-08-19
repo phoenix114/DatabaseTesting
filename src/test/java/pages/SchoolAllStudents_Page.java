@@ -27,6 +27,11 @@ public class SchoolAllStudents_Page {
     @FindBy (xpath = "//a[@data-target='#delete_employee']")
     public List<WebElement> allTheDeleteOptions;
 
+    @FindBy (xpath = "//div[@class='col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3']")
+    public List<WebElement> allTheStudentOptions;
+
+    //public WebElement desiredDeleteButton= allTheDeleteOptions.get(allTheDeleteOptions.size()-1);
+
     @FindBy (xpath = "//button[.='Delete']")
     public WebElement deleteButton;
 
